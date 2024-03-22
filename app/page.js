@@ -1,21 +1,30 @@
-import { getGamesByCategory } from './data/data-utils.js';
-
-import { Banner } from './components/Banner/Banner';
-
-import { CardsList } from './components/CardsList/CardsList';
-
-import { Promo } from './components/Promo/Promo';
+'use client';
+import { endpoints } from "./api/config";
+import { Banner } from "./components/Banner/Banner";
+import { CardsListSection } from "./components/CardsListSection/CardsListSection";
+import { Promo } from "./components/Promo/Promo";
+import { useGetDataByCategory } from "./api/api-hooks"
+import { Preloader } from "./components/Preloader/Preloader";
 
 export default function Home() {
-  const popularGames = getGamesByCategory("popular");
 
-  const newGames = getGamesByCategory("new");
+  const popularGames = useGetDataByCategory(endpoints.games, 'popular')
+  const newGames = useGetDataByCategory(endpoints.games, 'new');
 
   return (
     <main className="main">
       <Banner />
-      <CardsList id="popular" title="Популярные" data={popularGames}> </CardsList>
-      <CardsList id="new" title="Новинки" data={newGames}> </CardsList>
+
+      {newGames ? (
+        <CardsListSection type="slider" id="new" title="Новые" data={newGames} />
+      ) : (
+        <Preloader />
+      )}
+      {popularGames ? (
+        <CardsListSection type="slider" id="popular" title="Популярные" data={popularGames} />
+      ) : (
+        <Preloader />
+      )}
       <Promo />
     </main>
   );

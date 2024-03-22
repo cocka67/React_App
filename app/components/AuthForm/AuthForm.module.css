@@ -42,6 +42,10 @@
   gap: 8px;
 }
 
+.form__message {
+  margin-bottom: 20px;
+} 
+
 .form__reset {
   font-family: "Rubic One", sans-serif;
   background-color: transparent;
